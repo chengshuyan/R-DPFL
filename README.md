@@ -2,9 +2,9 @@
 
 This repository contains the official code for the ICML 2021 paper:
 
-["Progressive-Scale Boundary Blackbox Attack via Projective Gradient Estimation".](https://arxiv.org/abs/2106.06056)
+[Federated Optimization in Heterogeneous Networks](https://arxiv.org/abs/1812.06127)
 
-Jiawei Zhang\*, Linyi Li\*, Huichen Li, Xiaolu Zhang, Shuang Yang, Bo Li
+Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, Virginia Smith
 
 ## Motivation
 
@@ -38,44 +38,23 @@ export CUDA_VISIBLE_DEVICES=
 (2) Run on one dataset. First, modify the `run_fedavg.sh` and `run_fedprox.sh` scripts, specify the corresponding model of that dataset (choose from `flearn/models/$DATASET/$MODEL.py` and use `$MODEL` as the model name), specify a log file name, and configure all other parameters such as learning rate (see all hyper-parameters values in the appendix of the paper).
 
 
-For example, for all the synthetic data:
+For example, for the data:
 
-`fedavg.sh`:
+`nfedprox.sh`:
 
 ```
-python3  -u main.py --dataset=$1 --optimizer='fedavg'  \
-            --learning_rate=0.01 --num_rounds=200 --clients_per_round=10 \
+python3  -u main.py --dataset=$1 --optimizer='nfedprox'  \
+            --learning_rate=0.01 --num_rounds=25 --clients_per_round=$2 \
             --eval_every=1 --batch_size=10 \
-            --num_epochs=20 \
-            --drop_percent=$2 \
-            --model='mclr' 
-```
-
-`fedprox.sh`:
-
-```
-python3  -u main.py --dataset=$1 --optimizer='fedprox'  \
-            --learning_rate=0.01 --num_rounds=200 --clients_per_round=10 \
-            --eval_every=1 --batch_size=10 \
-            --num_epochs=20 \
-            --drop_percent=$2 \
-            --model='mclr' \
-            --mu=$3
+            --num_epochs=$3 \
+            --model=$9 \
+            --drop_percent=0 \
+            --mu=$4 --L=$5 --Clip=$6 --epsilon=$7 --delta=$8\
 ```
 
 Then run:
 
 ```
-mkdir synthetic_1_1
-bash run_fedavg.sh synthetic_1_1 0 | tee synthetic_1_1/fedavg_drop0
-bash run_fedprox.sh synthetic_1_1 0 0 | tee synthetic_1_1/fedprox_drop0_mu0
-bash run_fedprox.sh synthetic_1_1 0 1 | tee synthetic_1_1/fedprox_drop0_mu1
-
-bash run_fedavg.sh synthetic_1_1 0.5 | tee synthetic_1_1/fedavg_drop0.5
-bash run_fedprox.sh synthetic_1_1 0.5 0 | tee synthetic_1_1/fedprox_drop0.5_mu0
-bash run_fedprox.sh synthetic_1_1 0.5 1 | tee synthetic_1_1/fedprox_drop0.5_mu1
-
-bash run_fedavg.sh synthetic_1_1 0.9 | tee synthetic_1_1/fedavg_drop0.9
-bash run_fedprox.sh synthetic_1_1 0.9 0 | tee synthetic_1_1/fedprox_drop0.9_mu0
-bash run_fedprox.sh synthetic_1_1 0.9 1 | tee synthetic_1_1/fedprox_drop0.9_mu1
+mkdir mnist
+bash \run_nfedprox-Copy3.sh mnist 0.5 20 1 5 5 80 0.000002 'mlp'| tee mnist/nfedprox_drop0_class1_10_epsilon80_mlp_final
 ```
