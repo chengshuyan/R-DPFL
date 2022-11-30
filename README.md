@@ -8,16 +8,10 @@ Tian Li, Anit Kumar Sahu, Manzil Zaheer, Maziar Sanjabi, Ameet Talwalkar, Virgin
 
 ## Motivation
 
-Boundary Blackbox Attack requires only decision labels to perform adversarial attacks, where query efficiency directly determines the attack efficiency. Therefore, how we estimate the gradient on the current boundary is a crucial step in this series of work.
-
-In this paper, we theoretically show that there actually exist a trade-off between the projected length of the true gradient on subspace(the brown item) and the dimensionality of the projection subspace (purple item).
-
-![projection](https://github.com/AI-secure/PSBA/blob/master/imgs/projection.png)
-
-Based on this interesting finding, we propose *Progressive-Scale based projective Boundary Attack (PSBA)* via progressively searching for the optimal scale in a self-adaptive way under spatial, frequency, and spectrum scales. The image below just shows how we progressively search the optimal projection subspace on the spatial domain, and then attack the target models with this optimal scale.
-
+In Differentially private Federated Learning (DPFL), gradient clipping and random noise addition disproportionately affect statistically heterogeneous datas. As a consequence, DPFL has disparate impact: the accuracy of models trained with DPFL tends to decrease more on these datas. If the accuracy of the original model decreases on heterogeneous datas, DPFL will exacerbate this decrease. In this work, we study the utility loss inequality due to differential privacy and compare the convergence of the private and non-private models. We analyze the gradient differences caused by statistically heterogeneous datas and explain how statistical heterogeneity relates to the effect of privacy on model convergence. In addition, we propose an improved DPFL algorithm, called R-DPFL, to achieve differential privacy with the same cost but better utility. R-DPFL adjusts the gradient clipping value and the number of selected users at begining according to the degree of statistical heterogeneity of datas and weakens the direct proportional relationship between the differential privacy and the gradient difference, reducing the impact of differential privacy on the model trained by heterogeneous datas. Our experimental evaluation shows the effectiveness of our elimination algorithm in achieving the same cost of differential privacy with satisfactory utility.
+<!---
 ![progressive_attack](https://github.com/AI-secure/PSBA/blob/master/imgs/progressive_attack.png)
-
+-->
 ### Downloading dependencies
 
 ```
